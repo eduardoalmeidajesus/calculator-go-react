@@ -1,0 +1,27 @@
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+
+# Go build and coverage output
+backend/bin/
+backend/coverage.out
+backend/coverage
+backend/coverage.html
+
+# Local environment and editor files
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+*.log
+
+# Temporary local toolchains and caches used for verification
+.tools/
+.gocache/
+.gopath/
+
+# OS files
+.DS_Store
+Thumbs.db
