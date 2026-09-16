@@ -32,7 +32,7 @@ Vitest prints statements, branches, functions, and lines and writes the detailed
 Verified locally on 2026-09-15 with Node.js v24.11.0 and npm 11.6.1:
 
 ```text
-All files       | % Stmts 96.81 | % Branch 83.33 | % Funcs 100 | % Lines 96.81
+All files       | % Stmts 96.86 | % Branch 84.37 | % Funcs 100 | % Lines 96.86
 ```
 
 ## Verification policy

@@ -128,7 +128,7 @@ func decodeRequest(w http.ResponseWriter, r *http.Request) (*calculateRequest, *
 		return nil, &requestError{code: "INVALID_REQUEST", message: "Request body contains invalid or unknown fields."}
 	}
 
-	if len(raw.Operation) == 0 || string(raw.Operation) == "null" {
+	if len(raw.Operation) == 0 || bytes.Equal(bytes.TrimSpace(raw.Operation), []byte("null")) {
 		return nil, &requestError{code: "INVALID_REQUEST", message: "The operation field is required."}
 	}
 	var operation string
@@ -155,7 +155,7 @@ func decodeNumber(value json.RawMessage, field string, required bool) (*float64,
 		}
 		return nil, nil
 	}
-	if string(value) == "null" {
+	if bytes.Equal(bytes.TrimSpace(value), []byte("null")) {
 		return nil, &requestError{code: "INVALID_REQUEST", message: fmt.Sprintf("The %s field must be a finite number.", field)}
 	}
 	var number float64

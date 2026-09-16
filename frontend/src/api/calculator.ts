@@ -54,6 +54,10 @@ export async function calculate(input: CalculateInput, signal?: AbortSignal): Pr
     throw new CalculatorApiError('The server returned an invalid response.', 'INVALID_RESPONSE', response.status)
   }
 
+  if (body === null || typeof body !== 'object') {
+    throw new CalculatorApiError('The server returned an invalid response.', 'INVALID_RESPONSE', response.status)
+  }
+
   if (!response.ok) {
     const error = (body as ApiErrorPayload).error
     throw new CalculatorApiError(

@@ -50,4 +50,10 @@ describe('calculate API client', () => {
 
     await expect(calculate({ operation: 'add', a: 1, b: 2 })).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
   })
+
+  it('rejects a null response body', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('null', { status: 200 }))
+
+    await expect(calculate({ operation: 'add', a: 1, b: 2 })).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
+  })
 })
