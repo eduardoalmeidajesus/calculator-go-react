@@ -1,6 +1,7 @@
 package httpapi
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -21,6 +22,12 @@ type calculateRequest struct {
 	Operation string
 	A         *float64
 	B         *float64
+}
+
+type rawCalculateRequest struct {
+	Operation json.RawMessage `json:"operation"`
+	A         json.RawMessage `json:"a"`
+	B         json.RawMessage `json:"b"`
 }
 
 type errorBody struct {
@@ -102,41 +109,38 @@ type requestError struct {
 
 func decodeRequest(w http.ResponseWriter, r *http.Request) (*calculateRequest, *requestError) {
 	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, maxRequestSize))
-	decoder.UseNumber()
-
-	var raw map[string]json.RawMessage
-	if err := decoder.Decode(&raw); err != nil {
+	var body json.RawMessage
+	if err := decoder.Decode(&body); err != nil {
 		return nil, &requestError{code: "INVALID_REQUEST", message: "Request body must be a valid JSON object."}
 	}
-	if raw == nil {
-		return nil, &requestError{code: "INVALID_REQUEST", message: "Request body must be a JSON object."}
-	}
-
-	allowed := map[string]bool{"operation": true, "a": true, "b": true}
-	for key := range raw {
-		if !allowed[key] {
-			return nil, &requestError{code: "INVALID_REQUEST", message: fmt.Sprintf("Unknown field %q.", key)}
-		}
-	}
-
 	if err := ensureNoTrailingJSON(decoder); err != nil {
 		return nil, &requestError{code: "INVALID_REQUEST", message: "Request body must contain exactly one JSON object."}
 	}
+	trimmedBody := bytes.TrimSpace(body)
+	if len(trimmedBody) == 0 || trimmedBody[0] != '{' {
+		return nil, &requestError{code: "INVALID_REQUEST", message: "Request body must be a JSON object."}
+	}
 
-	operationRaw, ok := raw["operation"]
-	if !ok || string(operationRaw) == "null" {
+	strictDecoder := json.NewDecoder(bytes.NewReader(trimmedBody))
+	strictDecoder.DisallowUnknownFields()
+	var raw rawCalculateRequest
+	if err := strictDecoder.Decode(&raw); err != nil {
+		return nil, &requestError{code: "INVALID_REQUEST", message: "Request body contains invalid or unknown fields."}
+	}
+
+	if len(raw.Operation) == 0 || string(raw.Operation) == "null" {
 		return nil, &requestError{code: "INVALID_REQUEST", message: "The operation field is required."}
 	}
 	var operation string
-	if err := json.Unmarshal(operationRaw, &operation); err != nil || strings.TrimSpace(operation) == "" {
+	if err := json.Unmarshal(raw.Operation, &operation); err != nil || strings.TrimSpace(operation) == "" {
 		return nil, &requestError{code: "INVALID_REQUEST", message: "The operation field must be a non-empty string."}
 	}
 
-	a, err := decodeNumber(raw, "a", true)
+	a, err := decodeNumber(raw.A, "a", true)
 	if err != nil {
 		return nil, err
 	}
-	b, err := decodeNumber(raw, "b", false)
+	b, err := decodeNumber(raw.B, "b", false)
 	if err != nil {
 		return nil, err
 	}
@@ -144,9 +148,8 @@ func decodeRequest(w http.ResponseWriter, r *http.Request) (*calculateRequest, *
 	return &calculateRequest{Operation: operation, A: a, B: b}, nil
 }
 
-func decodeNumber(raw map[string]json.RawMessage, field string, required bool) (*float64, *requestError) {
-	value, present := raw[field]
-	if !present {
+func decodeNumber(value json.RawMessage, field string, required bool) (*float64, *requestError) {
+	if len(value) == 0 {
 		if required {
 			return nil, &requestError{code: "INVALID_REQUEST", message: fmt.Sprintf("The %s field is required.", field)}
 		}

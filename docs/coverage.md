@@ -15,7 +15,7 @@ go tool cover -html=coverage.out -o coverage.html
 Verified locally on 2026-09-15 with Go 1.22.12 (portable toolchain, with GOCACHE redirected to the workspace):
 
 ```text
-total: (statements) 83.5%
+total: (statements) 83.3%
 ```
 
 ## Frontend
