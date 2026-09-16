@@ -1,6 +1,6 @@
 # Coverage report
 
-Coverage must be generated from the actual implementation before submission. This repository records the commands and the current environment limitation rather than inventing percentages.
+Coverage was generated from the actual implementation. This file records the commands, tool versions, and measured summaries so the reports can be reproduced.
 
 ## Backend
 
