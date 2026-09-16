@@ -1,33 +1,33 @@
-# Instruções para agentes neste repositório
+# Repository instructions for agents
 
-## Fonte de verdade
+## Source of truth
 
-Antes de implementar ou alterar a aplicação, leia [SPECS.md](SPECS.md) integralmente. Ela registra os requisitos do desafio Sezzle, as decisões adotadas, o contrato da API, o plano de 3–4 horas e os critérios de aceite.
+Before implementing or modifying the application, read [SPECS.md](SPECS.md) in full. It records the Sezzle requirements, adopted decisions, API contract, 3–4 hour plan, and acceptance criteria.
 
-Se a tarefa atual for apenas revisar documentação, limite as alterações à documentação. Quando o usuário solicitar a implementação, execute as etapas da seção 11 da especificação.
+For documentation-only tasks, restrict changes to documentation. When implementation is requested, follow section 11 of the specification.
 
-## Prioridades
+## Priorities
 
-1. Correção das quatro operações obrigatórias pelo backend Go.
-2. Interface React com TypeScript, validação, erros e responsividade.
-3. Testes relevantes nas duas camadas e cobertura medida.
-4. README reproduzível em inglês e registro fiel dos prompts.
-5. Publicação no repositório informado, quando fizer parte da tarefa autorizada.
+1. Correct execution of the four required operations through the Go backend.
+2. React with TypeScript, validation, error handling, and responsiveness.
+3. Meaningful tests for both layers and measured coverage.
+4. A reproducible English README and accurate prompt record.
+5. Publication to the supplied repository when authorized.
 
-Operações avançadas e Docker são opcionais. Não sacrificar os itens anteriores por extras. Não introduzir banco de dados, autenticação, parser de expressões ou infraestrutura desnecessária.
+Advanced operations and Docker are optional. Do not sacrifice the priorities above for extras. Do not introduce a database, authentication, expression parser, or unnecessary infrastructure.
 
-## Forma de trabalhar
+## Working approach
 
-- Inspecionar arquivos, instruções e estado Git; preservar alterações existentes.
-- Usar inglês no código, na interface, nas mensagens da API e no README.
-- Manter a lógica matemática independente de HTTP e os cálculos no backend.
-- Seguir o contrato e as decisões explícitas de `SPECS.md`; registrar justificativa para qualquer ajuste necessário.
-- Concluir e verificar cada etapa antes de avançar. Manter um registro curto em `docs/implementation-status.md` durante a implementação.
-- Registrar os prompts realmente utilizados em `PROMPTS.md`, sem inventar histórico.
-- Executar testes, cobertura, verificação de tipos/build, formatação e `go vet` conforme a especificação.
-- Nunca inventar resultados de testes, cobertura, tempo gasto, publicação ou envio ao recrutador.
-- Usar o repositório https://github.com/eduardoalmeidajesus/calculator-sezzle como destino informado pelo usuário; verificar remote e autenticação antes de publicar e preservar o histórico.
+- Inspect files, instructions, and Git state; preserve existing changes.
+- Use English in code, UI, API messages, and all repository documentation.
+- Keep mathematical logic independent of HTTP and execute calculations on the backend.
+- Follow SPECS.md and document reasons for necessary adjustments.
+- Complete and verify each stage before advancing. Maintain docs/implementation-status.md during implementation.
+- Record actual prompts in PROMPTS.md without inventing history. Label translations and hypothetical examples.
+- Run tests, coverage, type checking/build, formatting, and go vet as specified.
+- Never invent test results, coverage, elapsed time, publication, or recruiter delivery.
+- Use https://github.com/eduardoalmeidajesus/calculator-sezzle as the supplied target. Verify remote and authentication before publishing and preserve history.
 
-## Conclusão
+## Completion
 
-Conferir todos os critérios de aceite aplicáveis em `SPECS.md`. Informar funcionalidades entregues, verificações executadas, cobertura, limitações e pendências externas. A existência de documentação ou de um checklist marcado não substitui a implementação e a execução das verificações.
+Check all applicable acceptance criteria in SPECS.md. Report delivered features, executed checks, coverage, limitations, and external dependencies. Documentation or a checked checklist does not replace implementation and verification.

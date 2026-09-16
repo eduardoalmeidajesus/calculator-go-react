@@ -36,6 +36,25 @@ describe('Calculator app', () => {
     }))
   })
 
+  it('disables the form while a request is pending', async () => {
+    let resolveRequest: ((response: Response) => void) | undefined
+    const pendingRequest = new Promise<Response>((resolve) => { resolveRequest = resolve })
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockReturnValue(pendingRequest)
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.type(screen.getByLabelText('First number'), '1')
+    await user.type(screen.getByLabelText('Second number'), '2')
+    await user.click(screen.getByRole('button', { name: 'Calculate' }))
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Calculating…' })).toBeDisabled())
+    expect(screen.getByLabelText('Operation')).toBeDisabled()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+
+    resolveRequest?.(new Response(JSON.stringify({ result: 3 }), { status: 200 }))
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('3'))
+  })
+
   it('prevents invalid input from reaching the API', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch')
     const user = userEvent.setup()

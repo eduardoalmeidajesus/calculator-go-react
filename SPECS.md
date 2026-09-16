@@ -1,262 +1,249 @@
-# Especificação do projeto — Calculadora Sezzle
+# Project specification — Sezzle Calculator
 
-## 1. Objetivo
+## 1. Objective
 
-Construir uma calculadora full-stack com frontend React e um microserviço backend em Go. O frontend deve consumir a API REST para executar os cálculos e apresentar os resultados.
+Build a full-stack calculator with a React frontend and a Go backend microservice. The frontend must consume the REST API to perform calculations and display results.
 
-O projeto deve demonstrar correção, clareza, manutenção simples e arquitetura testável. O tempo sugerido pelo desafio é de **2 a 4 horas**, com entrega em até **5 dias úteis após o recebimento do convite**.
+Prioritize correctness, clarity, maintainability, and testable architecture. The assignment suggests **2–4 hours of work**, with submission within **5 business days of receiving the invitation**.
 
-Este documento traduz o desafio em um plano de implementação. Os contratos de API, a estrutura de pastas e as ferramentas abaixo são decisões propostas; não são exigências adicionais da Sezzle.
+The API contract, folder structure, and tools below are project decisions derived from the assignment, not additional Sezzle requirements.
 
-## Instruções de execução para o Codex
+## Execution instructions for Codex
 
-**Repositório de destino:** https://github.com/eduardoalmeidajesus/calculator-sezzle
+**Target repository:** https://github.com/eduardoalmeidajesus/calculator-sezzle
 
-**Decisão de escopo:** concluir uma aplicação pequena e bem acabada com as quatro operações obrigatórias, testes nas duas camadas, cobertura e documentação. Planejar **3 horas para a entrega essencial e até 1 hora de margem**. Operações avançadas e Docker continuam opcionais, conforme o e-mail, mesmo que o objetivo inicial mencione operações básicas e avançadas.
+**Scope:** deliver a small, polished application with the four required operations, tests for both layers, measured coverage, and documentation. Plan **3 hours for essential work and up to 1 hour of contingency**. Advanced operations and Docker remain optional even though the objective mentions basic and advanced arithmetic.
 
-Este arquivo é a especificação de implementação. Sua existência não significa que a aplicação esteja implementada. Quando receber a tarefa de implementar:
+This specification is not evidence that implementation is complete. When asked to implement:
 
-1. Ler este arquivo inteiro e inspecionar os arquivos e o estado Git antes de alterar o projeto. Preservar trabalho existente e verificar o remote antes de publicar.
-2. Trabalhar pelas etapas da seção 11, concluindo implementação e verificação de cada etapa antes de avançar. Não aguardar aprovação entre decisões técnicas rotineiras já cobertas por esta especificação.
-3. Usar React com TypeScript e Go. React é obrigatório no e-mail; TypeScript e Go são preferências do e-mail que adotamos como decisões deste projeto.
-4. Escrever código, interface, mensagens da API, README e descrições técnicas em **inglês**, para facilitar a avaliação. Esta especificação pode permanecer em português. Os textos em português nos exemplos abaixo explicam o comportamento; a implementação deve usar equivalentes em inglês.
-5. Preferir funções pequenas, estado local React, `fetch` e biblioteca padrão Go. Não adicionar Redux, ORM, banco de dados, frameworks backend, monorepo tooling ou bibliotecas visuais sem necessidade concreta.
-6. Registrar os prompts de implementação em `PROMPTS.md` durante o trabalho. Preservar o texto dos prompts disponíveis, identificando trechos omitidos por privacidade. Não inventar prompts ou conversas ausentes.
-7. Executar os comandos de verificação e corrigir as falhas antes de declarar uma etapa concluída. Registrar impedimentos reais e verificações não executadas com clareza.
-8. Usar a margem primeiro para correções. Não trocar testes, cobertura ou documentação por funcionalidades opcionais.
-9. Ao concluir, informar o que foi implementado, os comandos executados, a cobertura medida, limitações e o estado da publicação. Nunca declarar push, testes ou entrega ao recrutador sem evidência.
+1. Read this entire document and inspect files and Git state. Preserve existing work and verify the remote before publishing.
+2. Follow section 11, completing and verifying each stage before advancing. Routine decisions covered here do not require additional approval.
+3. Use React with TypeScript and Go. React is required; TypeScript and Go are assignment preferences adopted for this project.
+4. Write code, UI text, API messages, README, specifications, and technical documentation in English.
+5. Prefer small functions, local React state, fetch, and the Go standard library. Avoid Redux, ORMs, databases, backend frameworks, monorepo tooling, and UI libraries without concrete need.
+6. Record actual prompts in PROMPTS.md, identifying translations, summaries, and privacy omissions. Do not invent missing conversations.
+7. Execute verification commands and fix failures before declaring completion. Clearly record blockers and checks not performed.
+8. Use contingency time for fixes first. Do not trade tests, coverage, or documentation for optional features.
+9. Report implemented features, executed commands, measured coverage, limitations, and publication status. Never claim tests, pushes, or recruiter delivery without evidence.
 
-### Rastreabilidade com o e-mail
+### Assignment traceability
 
-| Exigência do processo | Evidência esperada na entrega |
+| Requirement | Expected evidence |
 | --- | --- |
-| Full-stack e cálculos pelo backend | Formulário React integrado a `POST /api/calculate` e verificação com os dois serviços ativos |
-| Quatro operações básicas | Implementação e testes de `add`, `subtract`, `multiply` e `divide` |
-| Validação e edge cases | Testes de entradas inválidas, zero, decimais, negativos e divisão por zero |
-| Interface intuitiva e responsiva | Formulário acessível, mensagens claras e verificação em desktop e mobile |
-| Código limpo e testável | Lógica matemática independente do handler HTTP e cliente HTTP separado da UI |
-| Testes e relatório de cobertura | Testes nas duas camadas e `docs/coverage.md` com resultados reais |
-| Setup, execução, API e decisões | README em inglês com comandos reproduzíveis |
-| Compartilhar prompts | `PROMPTS.md` referenciado no README |
-| Repositório e envio do link | Código publicado no repositório informado e link preparado para o candidato enviar |
-| Operações avançadas e Docker | Somente se implementados e verificados dentro da margem; sua ausência não impede a entrega obrigatória |
+| Full-stack calculation through backend | React form integrated with POST /api/calculate and verification with both services running |
+| Four basic operations | Implementation and tests for add, subtract, multiply, divide |
+| Validation and edge cases | Tests for invalid input, zero, decimals, negatives, division by zero |
+| Intuitive, responsive UI | Accessible form, clear feedback, desktop and mobile checks |
+| Clean, testable code | Arithmetic independent of HTTP; HTTP client separate from UI |
+| Tests and coverage report | Both test suites and actual results in docs/coverage.md |
+| Setup, execution, API, rationale | English README with reproducible commands |
+| Share AI prompts | PROMPTS.md linked from README |
+| Publish repository and share link | Published code and link prepared for candidate submission |
+| Advanced operations and Docker | Only when implemented and verified within contingency; optional for delivery |
 
-## 2. Escopo e prioridades
+## 2. Scope and priorities
 
-### Obrigatório
+### Required
 
-- Adição, subtração, multiplicação e divisão.
-- Interface React com entrada de dados e exibição de resultados.
-- Integração real entre frontend e backend para executar as operações.
-- Validação de entradas e tratamento de erros nas duas camadas.
-- Layout responsivo com suporte básico a dispositivos móveis.
-- API REST com respostas JSON.
-- Código organizado, legível e idiomático.
-- Testes unitários das principais funcionalidades de frontend e backend.
-- Relatórios de cobertura das duas camadas.
-- README com instalação, execução, exemplos de API e decisões de projeto.
-- Repositório publicado em GitHub, GitLab ou equivalente.
-- Registro dos prompts utilizados com ferramentas de IA.
+- Addition, subtraction, multiplication, and division.
+- React input and result interface consuming the real backend API.
+- Independent input validation and error handling in both layers.
+- Responsive layout with basic mobile support.
+- REST API returning JSON.
+- Organized, readable, idiomatic code.
+- Unit tests for key frontend and backend functionality.
+- Coverage reports for both layers.
+- README with installation, execution, API examples, and design decisions.
+- Published GitHub, GitLab, or equivalent repository.
+- Record of prompts used with AI tools.
 
-### Opcional, somente após concluir o obrigatório
+### Optional, after completing required work
 
-- Exponenciação, raiz quadrada e porcentagem.
-- Dockerfile para executar frontend e backend juntos.
+- Exponentiation, square root, and percentage.
+- Dockerfile to run frontend and backend together.
 
-### Fora do escopo
+### Out of scope
 
-- Autenticação, usuários e banco de dados.
-- Histórico persistente ou sincronizado.
-- Parser de expressões livres, precedência de operadores ou parênteses.
-- Calculadora científica completa.
-- Orquestração de serviços ou infraestrutura de produção.
+Authentication, users, databases, persistent or synchronized history, expression parsing, operator precedence, parentheses, a complete scientific calculator, service orchestration, and production infrastructure.
 
-## 3. Tecnologias propostas
+## 3. Proposed technologies
 
-| Camada | Tecnologia | Justificativa |
+| Layer | Technology | Rationale |
 | --- | --- | --- |
-| Frontend | React + TypeScript + Vite | Tipagem e configuração enxuta |
-| Estilos | CSS simples | Suficiente para uma interface pequena e responsiva |
-| Testes do frontend | Vitest + React Testing Library | Verificação de comportamento dos componentes |
-| Backend | Go com `net/http` e `encoding/json` | Biblioteca padrão suficiente para a API |
-| Testes do backend | `testing` + `net/http/httptest` | Testes da lógica e dos handlers sem servidor externo |
-| Persistência | Nenhuma | Operações independentes e sem estado |
+| Frontend | React + TypeScript + Vite | Type safety and minimal setup |
+| Styling | Plain CSS | Sufficient for a small responsive interface |
+| Frontend tests | Vitest + React Testing Library | Component behavior checks |
+| Backend | Go with net/http and encoding/json | Standard library sufficient for API |
+| Backend tests | testing + net/http/httptest | Arithmetic and handlers tested without an external server |
+| Persistence | None | Independent, stateless operations |
 
-Registrar no README as versões utilizadas e os pré-requisitos. Versionar o lockfile do frontend e os arquivos de módulo Go aplicáveis.
+Record versions and prerequisites in README. Commit the frontend lockfile and applicable Go module files.
 
-## 4. Requisitos funcionais
+## 4. Functional requirements
 
-### RF01 — Executar cálculos
+### RF01 — Perform calculations
 
-O usuário deve poder informar dois operandos, selecionar uma operação e acionar o cálculo. O frontend envia os dados ao backend e exibe o resultado retornado.
+The user enters two operands, selects an operation, and submits. The frontend sends the values to the backend and displays the returned result.
 
-| Operação | Identificador na API | Regra | Exemplo |
+| Operation | Identifier | Rule | Example |
 | --- | --- | --- | --- |
-| Adição | `add` | `a + b` | `2 + 3 = 5` |
-| Subtração | `subtract` | `a - b` | `2 - 3 = -1` |
-| Multiplicação | `multiply` | `a * b` | `-2 * 3 = -6` |
-| Divisão | `divide` | `a / b`, com `b != 0` | `7 / 2 = 3.5` |
+| Addition | add | a + b | 2 + 3 = 5 |
+| Subtraction | subtract | a - b | 2 - 3 = -1 |
+| Multiplication | multiply | a * b | -2 * 3 = -6 |
+| Division | divide | a / b, with b != 0 | 7 / 2 = 3.5 |
 
-Aceitar números inteiros, decimais, negativos e zero. Zero é uma entrada válida e não pode ser confundido com campo vazio.
+Accept integers, decimals, negatives, and zero. Zero is valid and must not be mistaken for an empty field.
 
-### RF02 — Validar entradas
+### RF02 — Validate input
 
-- Exigir os operandos necessários à operação.
-- Rejeitar campos vazios e valores que não representem números finitos.
-- Validar a operação contra a lista suportada.
-- Rejeitar divisão por zero, incluindo zero negativo.
-- Rejeitar resultados não finitos, como overflow.
-- Validar novamente no backend, independentemente das verificações do frontend.
+Require operands appropriate to the operation; reject empty fields, non-finite numbers, unsupported operations, division by positive or negative zero, and non-finite results such as overflow. The backend repeats validation independently of the UI.
 
-### RF03 — Exibir estados e erros
+### RF03 — Display states and errors
 
-- Exibir estado de carregamento durante a chamada da API.
-- Impedir envios duplicados enquanto houver requisição em andamento.
-- Apresentar mensagens compreensíveis para validação, falha de rede e erro do servidor.
-- Ao iniciar uma nova tentativa, limpar o resultado anterior para evitar ambiguidade.
-- Permitir corrigir as entradas e tentar novamente após um erro.
+Show loading while requests are pending and prevent duplicate submissions. Display understandable validation, network, and server errors. Clear old results when starting a new attempt. Allow users to correct inputs and retry after errors.
 
-### RF04 — Limpar formulário
+### RF04 — Clear the form
 
-Disponibilizar uma ação para limpar entradas, resultado e mensagens. Durante uma requisição, desabilitar essa ação ou cancelar/ignorar a resposta pendente.
+Provide an action to clear inputs, results, and messages. Disable it during requests or cancel/ignore pending responses.
 
-### Decisões de comportamento para evitar ambiguidades
+### Explicit behavior decisions
 
-- Iniciar com ambos os campos vazios e operação `add` selecionada; não realizar chamadas no carregamento inicial.
-- Manter os valores digitados como strings no estado React. Aplicar `trim()` e verificar vazio antes de converter com `Number`; não usar `parseFloat`, que pode aceitar entradas parcialmente inválidas.
-- Para comportamento previsível entre ambientes, usar campos de texto com `inputMode="decimal"`. Aceitar sinal, decimais com ponto e notação científica; rejeitar vírgula, hexadecimal e conteúdo misturado. Exibir a dica “Use a dot for decimals, e.g. 1.5”. Uma expressão regular simples pode validar a sintaxe antes de `Number.isFinite`.
-- Considerar sintaxe decimal válida `^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$`. Exemplos válidos: `0`, `-2`, `1.5`, `.5`, `1e-3`. Exemplos inválidos: `1,5`, `0x10`, `12abc`, `Infinity`.
-- Desabilitar campos, seletor e botões durante a requisição. Ao alterar uma entrada ou operação, limpar resultado e erro anteriores.
-- Validar divisão por zero no frontend para feedback imediato; manter a mesma proteção no backend.
-- Usar timeout de 10 segundos no cliente com `AbortController`, limpar o timer ao terminar e mostrar erro recuperável. Não adicionar retries automáticos.
-- Validar a resposta recebida: sucesso exige `result` numérico e finito. JSON inesperado ou corpo inválido devem gerar mensagem amigável, sem derrubar o componente.
-- Exibir o resultado com `String(result)`, permitindo notação científica e documentando ponto flutuante. Não usar arredondamento fixo nem `toFixed(2)`.
-- “Clear” restaura os campos vazios, a operação `add` e o estado inicial.
+- Initially, both inputs are empty and add is selected. Do not request calculations on page load.
+- Store input strings in React state. Apply trim and reject empty input before converting with Number. Do not use parseFloat, which can accept partially invalid strings.
+- Use text inputs with inputMode="decimal". Accept signs, decimal points, and scientific notation; reject commas, hexadecimal, and mixed text. Display “Use a dot for decimals, e.g. 1.5”.
+- Validate the following decimal grammar before checking Number.isFinite:
 
-## 5. Interface e acessibilidade
+~~~text
+^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$
+~~~
 
-Usar um formulário simples com dois campos numéricos, seletor de operação, botão “Calcular”, botão “Limpar” e área de resultado. Um teclado visual de calculadora não é necessário.
+Valid examples: 0, -2, 1.5, .5, 1e-3. Invalid examples: 1,5, 0x10, 12abc, Infinity.
 
-- Associar labels aos campos e usar elementos HTML semânticos.
-- Permitir navegação por teclado e envio com Enter.
-- Manter foco visível e contraste legível.
-- Não comunicar erros somente por cor.
-- Anunciar resultado e mensagens com uma região acessível, como `aria-live`.
-- Exibir a interface sem rolagem horizontal em largura de 320 px.
-- Informar o formato decimal aceito e evitar conversões silenciosas incorretas.
+- Disable fields, selector, and buttons during requests. Clear previous results and errors when inputs or the operation change.
+- Validate division by zero on both frontend and backend.
+- Use a 10-second timeout with AbortController, clear its timer on completion, and display a recoverable error. Do not retry automatically.
+- Validate responses: success requires a finite numeric result. Unexpected JSON or invalid bodies must produce friendly errors without crashing.
+- Display results with String(result), allowing scientific notation. Document floating-point behavior. Do not use fixed rounding or toFixed(2).
+- Clear restores empty inputs, add, and the initial state.
 
-Não executar a aritmética no frontend como alternativa à API. O frontend pode validar entradas e formatar o resultado.
+## 5. Interface and accessibility
 
-## 6. Contrato da API REST
+Use a simple form with two numeric inputs, an operation selector, Calculate and Clear buttons, and a result area. A calculator keypad is not required.
 
-### Endpoint
+- Associate labels with inputs and use semantic HTML.
+- Support keyboard navigation and submission with Enter.
+- Provide visible focus and readable contrast.
+- Do not communicate errors through color alone.
+- Announce results and messages through an accessible region such as aria-live.
+- Avoid horizontal scrolling at 320 px viewport width.
+- Explain decimal formatting and avoid silently incorrect conversions.
 
-`POST /api/calculate`
+The frontend may validate input and format results but must not calculate an API fallback.
 
-Um endpoint único atende às quatro operações, reduzindo duplicação. Enviar `Content-Type: application/json`.
+## 6. REST API contract
 
-### Requisição
+### Endpoint and request
 
-```json
+POST /api/calculate with Content-Type: application/json. A single endpoint reduces duplication across operations.
+
+~~~json
 {
   "operation": "add",
   "a": 10,
   "b": 5
 }
-```
+~~~
 
-- `operation`: string obrigatória com um identificador suportado.
-- `a` e `b`: números JSON obrigatórios no escopo básico.
-- Strings numéricas, booleanos, arrays, objetos e `null` não são operandos válidos.
-- O backend deve distinguir campos ausentes de valores iguais a zero.
-- Rejeitar campos desconhecidos. O corpo deve ser exatamente um objeto JSON; espaços após o objeto são permitidos, outro valor JSON não.
-- Aceitar `application/json` com parâmetros, como `application/json; charset=utf-8`, usando parsing do media type.
-- Validar primeiro método e media type; depois JSON e campos obrigatórios; depois operação e regras matemáticas. Testar erros individualmente sem depender de precedência entre vários erros no mesmo objeto.
-- Para campos numéricos, ponteiros `*float64` no DTO permitem rejeitar ausência e `null` preservando zero válido. Usar `DisallowUnknownFields` e conferir EOF após o primeiro decode.
+- operation is a required string containing a supported identifier.
+- a and b are required JSON numbers for basic operations.
+- Numeric strings, booleans, arrays, objects, and null are invalid operands.
+- Distinguish missing fields from zero.
+- Reject unknown fields. Accept exactly one JSON object, optionally followed by whitespace; reject additional JSON values.
+- Parse media types and accept application/json parameters such as charset=utf-8.
+- Validate method and media type first, then JSON/required fields, then the operation and mathematical rules. Test errors individually without relying on precedence among multiple errors.
+- Numeric DTO fields may use *float64 to preserve zero while rejecting absence and null. Use DisallowUnknownFields and check EOF after the first decode.
 
-### Resposta de sucesso — HTTP 200
+### Success — HTTP 200
 
-```json
+~~~json
 {
   "result": 15
 }
-```
+~~~
 
-### Resposta de erro
+### Error response
 
-```json
+~~~json
 {
   "error": {
     "code": "DIVISION_BY_ZERO",
-    "message": "Não é possível dividir por zero."
+    "message": "Division by zero is not allowed."
   }
 }
-```
+~~~
 
-| Status HTTP | Código de erro | Situação |
+| HTTP status | Error code | Condition |
 | --- | --- | --- |
-| 400 | `INVALID_REQUEST` | JSON malformado, campos ausentes, tipos inválidos ou conteúdo extra após o JSON |
-| 400 | `INVALID_OPERATION` | Operação não suportada |
-| 400 | `DIVISION_BY_ZERO` | Divisor igual a zero |
-| 400 | `NON_FINITE_RESULT` | Resultado fora do intervalo numérico suportado |
-| 405 | `METHOD_NOT_ALLOWED` | Método não permitido no endpoint |
-| 404 | `NOT_FOUND` | Rota de API inexistente |
-| 415 | `UNSUPPORTED_MEDIA_TYPE` | Corpo enviado sem o tipo de conteúdo JSON |
-| 500 | `INTERNAL_ERROR` | Falha inesperada do servidor |
+| 400 | INVALID_REQUEST | Malformed JSON, missing fields, invalid types, or trailing content |
+| 400 | INVALID_OPERATION | Unsupported operation |
+| 400 | DIVISION_BY_ZERO | Zero divisor |
+| 400 | NON_FINITE_RESULT | Result outside supported numeric range |
+| 405 | METHOD_NOT_ALLOWED | Unsupported method |
+| 404 | NOT_FOUND | Unknown API route |
+| 415 | UNSUPPORTED_MEDIA_TYPE | Body not sent as JSON |
+| 500 | INTERNAL_ERROR | Unexpected server failure |
 
-Retornar `Content-Type: application/json` nas respostas da API e não expor detalhes internos em mensagens de erro. Para HTTP 405, incluir `Allow: POST`.
+Return Content-Type: application/json and do not expose internal details. Include Allow: POST on HTTP 405 responses.
 
-### Exemplos de chamadas
+### Example calls
 
-Exemplos em shell compatível com Bash; no README, adaptar ou adicionar alternativas para PowerShell se necessário.
+Bash examples; adapt or provide PowerShell alternatives in README when necessary.
 
-```bash
-# Adição: resultado esperado 15
+~~~bash
+# Addition: expected result 15
 curl -X POST http://localhost:8080/api/calculate \
   -H 'Content-Type: application/json' \
   -d '{"operation":"add","a":10,"b":5}'
 
-# Divisão: resultado esperado 3.5
+# Division: expected result 3.5
 curl -X POST http://localhost:8080/api/calculate \
   -H 'Content-Type: application/json' \
   -d '{"operation":"divide","a":7,"b":2}'
 
-# Erro esperado: HTTP 400 / DIVISION_BY_ZERO
+# Expected error: HTTP 400 / DIVISION_BY_ZERO
 curl -X POST http://localhost:8080/api/calculate \
   -H 'Content-Type: application/json' \
   -d '{"operation":"divide","a":7,"b":0}'
-```
+~~~
 
-## 7. Precisão numérica e operações opcionais
+## 7. Numeric precision and optional operations
 
-Usar `float64` no backend e `number` no frontend. Documentar as limitações de ponto flutuante, como a representação de `0.1 + 0.2`. Não prometer precisão financeira ou arbitrária.
+Use float64 on the backend and number on the frontend. Document floating-point limitations, including 0.1 + 0.2; do not promise financial or arbitrary precision.
 
-A API retorna o valor numérico calculado sem arredondamento de negócio. Qualquer formatação visual deve ser documentada e não transformar números pequenos válidos em zero indevidamente.
+Return the calculated value without business rounding. Document display formatting and avoid converting small valid values to zero.
 
-Se houver tempo para operações adicionais, usar este contrato:
-
-| Operação | Identificador | Operandos | Regra |
+| Optional operation | Identifier | Operands | Rule |
 | --- | --- | --- | --- |
-| Exponenciação | `power` | `a`, `b` | `a` elevado a `b`; rejeitar resultado não finito |
-| Raiz quadrada | `sqrt` | Somente `a` | Exigir `a >= 0`; rejeitar `b` se enviado |
-| Porcentagem | `percentage` | `a`, `b` | Calcular `a` por cento de `b`: `(a / 100) * b` |
+| Exponentiation | power | a, b | a raised to b; reject non-finite results |
+| Square root | sqrt | a only | Require a >= 0; reject b if supplied |
+| Percentage | percentage | a, b | a percent of b: (a / 100) * b |
 
-Para raiz de número negativo, retornar HTTP 400 com código `INVALID_DOMAIN`. Ajustar formulário, documentação e testes ao adicionar operações opcionais. Deixar a semântica de porcentagem explícita na interface.
+A negative square-root input returns HTTP 400 with INVALID_DOMAIN. Update form, documentation, and tests for optional operations. Explain percentage semantics explicitly in the UI.
 
-Caso `power` seja implementado, usar `math.Pow`: documentar `0^0 = 1`; resultados NaN retornam `INVALID_DOMAIN` e resultados infinitos retornam `NON_FINITE_RESULT`. Para `sqrt`, o campo `b` deve ser omitido pelo frontend e sua presença, inclusive `null`, deve ser rejeitada pela API; isso exige detectar presença no DTO opcional. Não adicionar essas regras ao escopo básico antes de ele estar concluído.
+For power, use math.Pow and document 0^0 = 1. NaN returns INVALID_DOMAIN; infinite results return NON_FINITE_RESULT. For sqrt, the frontend omits b and the backend rejects its presence, including null, requiring presence detection in the optional DTO. Complete basic requirements before adding optional rules.
 
-## 8. Arquitetura e organização
+## 8. Architecture and organization
 
-Separar responsabilidades sem criar camadas desnecessárias:
+Separate responsibilities without unnecessary layers:
 
-- **Componentes React:** formulário, estados visuais e apresentação.
-- **Cliente HTTP:** serialização da requisição e interpretação das respostas.
-- **Handler Go:** validação do contrato HTTP e construção das respostas.
-- **Lógica de cálculo Go:** operações e regras matemáticas, sem dependência de HTTP.
+- React components: form, UI state, presentation.
+- HTTP client: request serialization, response interpretation.
+- Go handler: HTTP validation, response construction.
+- Go calculation logic: mathematical rules independent of HTTP.
 
-Estrutura sugerida:
+Suggested structure:
 
-```text
+~~~text
 /
 ├── README.md
 ├── SPECS.md
@@ -283,131 +270,119 @@ Estrutura sugerida:
 │           └── handler_test.go
 └── docs/
     └── coverage.md
-```
+~~~
 
-No desenvolvimento, usar o frontend na porta 5173 e o backend na porta 8080. Configurar o proxy do Vite para encaminhar `/api` ao backend e usar URLs relativas no cliente. Assim, não é necessário configurar CORS para o fluxo local proposto.
+Use frontend port 5173 and backend port 8080 in development. Proxy /api through Vite and use relative client URLs; local CORS middleware is unnecessary.
 
-Se Docker for implementado, uma opção simples é servir o build estático do frontend pelo próprio serviço Go, mantendo `/api` para os cálculos.
+If Docker is implemented, Go can serve the static frontend build while reserving /api for calculations.
 
-### Configuração mínima de execução
+### Minimum runtime configuration
 
-- Backend: módulo `github.com/eduardoalmeidajesus/calculator-sezzle/backend`; executar `go run ./cmd/server` dentro de `backend/`. Permitir `PORT`, com padrão `8080`, e configurar timeouts HTTP razoáveis.
-- Frontend: usar npm e fornecer scripts `dev`, `build`, `test` e `test:coverage`. `build` deve verificar TypeScript antes de gerar os assets; `test:coverage` deve executar uma vez e emitir cobertura em texto e HTML.
-- Configurar `strict: true` no TypeScript e ambiente `jsdom` para os testes de UI. Incluir o provider de cobertura compatível com a versão instalada do Vitest.
-- Setup local: `npm ci` dentro de `frontend/`, backend em um terminal e `npm run dev` em outro. Documentar o endereço `http://localhost:5173`.
-- Ignorar `node_modules`, `dist`, relatórios HTML gerados e binários. Versionar o resumo de cobertura em Markdown. Não exigir Docker para executar ou avaliar o projeto.
-- Não adicionar CI ou implantação pública como pré-requisito: o e-mail pede repositório publicado, não uma aplicação hospedada.
+- Go module: github.com/eduardoalmeidajesus/calculator-sezzle/backend. Run go run ./cmd/server from backend/. Support PORT with default 8080 and reasonable HTTP timeouts.
+- Use npm scripts dev, build, test, and test:coverage. Build must check TypeScript before bundling; coverage must run once and output text and HTML.
+- Enable TypeScript strict mode and jsdom for UI tests. Install a coverage provider compatible with Vitest.
+- Run npm ci from frontend/, backend in one terminal, npm run dev in another. Document http://localhost:5173.
+- Ignore node_modules, dist, generated coverage HTML, and binaries. Commit the Markdown coverage summary. Do not require Docker to run or evaluate the project.
+- CI and public application hosting are not prerequisites. The assignment requires a published repository, not a hosted application.
 
-## 9. Estratégia de testes
+## 9. Testing strategy
 
 ### Backend
 
-Usar testes orientados por tabela para a lógica matemática e `httptest` para o contrato HTTP.
+Use table-driven arithmetic tests and httptest for the HTTP contract. Cover:
 
-- Quatro operações com resultados conhecidos.
-- Números negativos, decimais e zero.
-- Divisão por zero e por zero negativo.
-- Operação inválida.
-- Campos ausentes, `null` e tipos incorretos.
-- JSON malformado e múltiplos valores JSON no mesmo corpo.
-- Método HTTP e tipo de conteúdo incorretos.
-- Overflow ou resultado não finito.
-- Status, headers e estrutura JSON de sucesso e erro.
+- Four operations with known results.
+- Negatives, decimals, and zero.
+- Division by positive and negative zero.
+- Unsupported operations.
+- Missing fields, null, and incorrect types.
+- Malformed JSON and multiple JSON values.
+- Wrong methods and content types.
+- Overflow and non-finite results.
+- Status, headers, and success/error JSON structure.
 
-Para resultados de ponto flutuante, usar tolerância quando necessário.
+Use floating-point tolerances where appropriate.
 
 ### Frontend
 
-Simular o limite HTTP para testar o comportamento sem depender de um servidor ativo.
+Mock the HTTP boundary to test behavior without a running server. Cover accessible controls, correct requests, displayed results including zero, invalid-input rejection, loading, duplicate-submission prevention, API/network errors, recovery, and form clearing.
 
-- Renderização e identificação acessível dos controles.
-- Envio da operação e dos operandos corretos.
-- Exibição do resultado retornado pela API, incluindo zero.
-- Bloqueio de envio com entradas inválidas.
-- Estado de carregamento e prevenção de envio duplicado.
-- Exibição de erros de API e de rede.
-- Recuperação após erro e limpeza do formulário.
+### Coverage and manual verification
 
-### Cobertura e verificação manual
+The assignment specifies no minimum percentage. Prioritize critical paths and errors; measure actual coverage without inventing results.
 
-Não há percentual mínimo exigido no enunciado. Priorizar caminhos críticos e erros; medir e registrar a cobertura efetivamente obtida, sem inventar resultados.
-
-Comandos esperados, após configurar os scripts e a dependência de cobertura do frontend:
-
-```bash
-# Na pasta backend
+~~~bash
+# In backend/
 go test ./...
 go test ./... -coverprofile=coverage.out
 go tool cover -func=coverage.out
 go tool cover -html=coverage.out -o coverage.html
 
-# Na pasta frontend
+# In frontend/
 npm run test -- --run
 npm run test:coverage
 npm run build
-```
+~~~
 
-Registrar em `docs/coverage.md` os comandos, a data da execução e os percentuais de cada camada. Explicar como gerar os relatórios detalhados; mantê-los disponíveis como arquivos de entrega ou artefatos acessíveis do repositório.
+Record commands, execution date, and percentages in docs/coverage.md. Explain how to generate detailed reports and make them available as deliverable files or accessible repository artifacts.
 
-O próprio `docs/coverage.md` será o relatório versionado exigido na entrega. Incluir saída resumida real do Go (statements) e do Vitest (statements, branches, functions e lines), com escopo/exclusões declarados. Medir todo o código de aplicação, sem excluir lógica difícil para aumentar números; excluir apenas testes, configurações e artefatos gerados. Não é necessário versionar HTML, habilitar CI ou alcançar um percentual arbitrário.
+The versioned Markdown report satisfies the coverage deliverable. Include actual Go statements and Vitest statements, branches, functions, and lines, declaring scope/exclusions. Measure application code without excluding difficult logic to inflate results. Exclude only tests, configuration, and generated artifacts. Committing HTML, enabling CI, or meeting arbitrary thresholds is unnecessary.
 
-Além dos testes, executar `gofmt` nos arquivos Go, `go vet ./...` e `go build ./...` no backend. Testar também a validação do corpo de resposta e o timeout do cliente HTTP. Preferir asserções de comportamento a snapshots extensos ou testes que apenas repetem o código.
+Also run gofmt, go vet ./..., and go build ./.... Test response-body validation and request timeout. Prefer behavior assertions over large snapshots or tests that mirror implementation.
 
-Verificar manualmente a integração real das quatro operações, uma divisão por zero, uma falha de conexão e o layout em tela pequena.
+Manually verify the four operations with both services running, division by zero, connection failure, and small-screen layout.
 
-## 10. Documentação e entrega
+## 10. Documentation and delivery
 
-O `README.md` deve incluir:
+README must include:
 
-1. Objetivo e funcionalidades implementadas.
-2. Pré-requisitos e versões utilizadas.
-3. Instalação a partir de um clone limpo.
-4. Comandos para executar frontend e backend, com portas e configuração necessárias.
-5. Contrato da API e exemplos de sucesso e erro.
-6. Comandos de testes, build e geração dos relatórios de cobertura.
-7. Arquitetura, decisões, premissas e limitações numéricas.
-8. Funcionalidades opcionais implementadas e limitações conhecidas.
-9. Referência ao arquivo `PROMPTS.md`.
-10. Instruções de Docker, se implementado.
+1. Purpose and implemented features.
+2. Prerequisites and versions.
+3. Installation from a clean clone.
+4. Frontend/backend startup, ports, and configuration.
+5. API contract and success/error examples.
+6. Tests, build, and coverage commands.
+7. Architecture, decisions, assumptions, and numeric limitations.
+8. Optional features implemented and known limitations.
+9. Link to PROMPTS.md.
+10. Docker instructions if implemented.
 
-O `PROMPTS.md` deve registrar os prompts efetivamente usados, incluindo a solicitação de criação desta especificação, além da ferramenta utilizada e da finalidade de cada interação relevante. Não incluir segredos ou dados pessoais desnecessários.
+PROMPTS.md records actual prompts, including the specification request, tool used, and purpose of relevant interactions. Exclude secrets and unnecessary personal data. Label translations and summaries.
 
-Publicar o código e a documentação em um repositório acessível à equipe avaliadora e compartilhar o link pelo canal indicado no processo seletivo. Conferir o acesso antes do envio.
+Publish to a repository accessible to evaluators and share the link through the recruitment channel. Verify access before submission. Check actual authentication, branch, and remote before pushing. Preserve history; do not force-push. If credentials or permissions block publication, complete local work and report the exact pending step.
 
-Usar o repositório informado no início deste documento. Na implementação, verificar autenticação, branch e remote reais antes do push; não substituir histórico remoto nem usar force push. Se a publicação estiver impedida por credenciais ou permissões, concluir os arquivos e verificações locais e relatar exatamente a pendência. Preparar uma mensagem curta em inglês com o link, mas deixar o envio ao recrutador com o candidato, salvo autorização explícita para enviar.
+Prepare a short English submission message, but leave sending to the candidate unless explicitly authorized. Distinguish implemented from optional/unimplemented features. Report actual approximate time only if recorded; do not claim four-hour completion without evidence. The five-business-day deadline depends on the invitation date, which has not been supplied.
 
-No README, diferenciar claramente “implemented” de “optional / not implemented”. Informar o tempo real aproximado gasto, se registrado; não afirmar que o trabalho coube em quatro horas sem essa informação. O prazo de cinco dias úteis depende da data de recebimento do e-mail, que não foi informada.
+## 11. Implementation stages and timebox
 
-## 11. Etapas de implementação e limite de tempo
-
-| Etapa | Orçamento | Condição para concluir |
+| Stage | Budget | Completion condition |
 | --- | --- | --- |
-| 1. Inspeção e configuração | 15 min | Estrutura criada, versões registradas e comandos básicos funcionando |
-| 2. Backend e testes | 45 min | Quatro operações, contrato JSON e testes de sucesso/erro passando |
-| 3. Frontend e integração | 45 min | Formulário responsivo consumindo a API real com todos os estados |
-| 4. Testes e revisão | 35 min | Testes de UI/cliente passando, build válido e integração real conferida |
-| 5. Documentação e entrega essencial | 40 min | README, prompts, cobertura medida e revisão de arquivos para publicação |
-| 6. Margem final | Até 60 min | Correções, eventual opcional completo e publicação verificada |
+| 1. Inspection and setup | 15 min | Structure, versions, and basic commands ready |
+| 2. Backend and tests | 45 min | Four operations, JSON contract, passing success/error tests |
+| 3. Frontend and integration | 45 min | Responsive form consuming real API with all states |
+| 4. Tests and review | 35 min | UI/client tests and build pass; real integration checked |
+| 5. Documentation and essentials | 40 min | README, prompts, measured coverage, publication file review |
+| 6. Final contingency | Up to 60 min | Fixes, possibly one complete optional feature, verified publication |
 
-Total planejado: **3 horas para o essencial, com limite de planejamento de 4 horas**. As estimativas não garantem duração; comunicar desvios reais. Ao atingir três horas com requisitos pendentes, usar toda a margem para concluí-los.
+Plan **3 hours for essentials and a 4-hour planning limit**. Estimates do not guarantee duration; report deviations. Use contingency for remaining requirements at the three-hour mark.
 
-Somente iniciar um opcional com o essencial verificado e pelo menos 30 minutos disponíveis. Priorizar uma operação adicional completa (API, UI, testes e documentação) antes de Docker. Docker só entra se houver tempo para efetivamente construir e executar a imagem; um Dockerfile não testado não conta como entrega concluída. É aceitável entregar somente o escopo obrigatório bem acabado.
+Only start optional work once essentials are verified and at least 30 minutes remain. Prioritize one complete additional operation—API, UI, tests, documentation—before Docker. Only include Docker when its image can be built and run; an untested Dockerfile is incomplete. A polished required-only implementation is acceptable.
 
-Ao finalizar cada etapa, atualizar `docs/implementation-status.md` com estado (`pending`, `in progress`, `done` ou `blocked`), mudanças, verificações reais e pendências. Manter esse registro curto para que outra sessão do Codex consiga continuar sem repetir trabalho. Não criar um sistema de gestão de tarefas.
+After each stage, update docs/implementation-status.md with pending, in progress, done, or blocked; changes; actual checks; and remaining work. Keep the record short so another Codex session can resume without repeating work. Do not build a task-management system.
 
-## 12. Critérios de aceite
+## 12. Acceptance criteria
 
-- [ ] Uma pessoa consegue executar o projeto seguindo apenas o README.
-- [ ] O frontend usa React com TypeScript e o backend usa Go.
-- [ ] As quatro operações obrigatórias funcionam pela API.
-- [ ] Inteiros, decimais, negativos e zero são tratados corretamente.
-- [ ] Entradas inválidas e divisão por zero produzem erros claros.
-- [ ] A API valida requisições independentemente do frontend.
-- [ ] Carregamento, sucesso e falha são apresentados na interface.
-- [ ] A interface funciona com teclado e em dispositivos móveis.
-- [ ] Os testes das duas camadas passam e o build do frontend é concluído.
-- [ ] A cobertura medida e suas instruções de reprodução estão disponíveis.
-- [ ] README e registro de prompts estão completos.
-- [ ] O repositório não contém credenciais, dependências instaladas ou arquivos temporários desnecessários.
-- [ ] O repositório está publicado e acessível à equipe avaliadora.
-- [ ] O link foi compartilhado dentro do prazo do desafio.
+- [ ] A reviewer can run the project using README alone.
+- [ ] Frontend uses React with TypeScript; backend uses Go.
+- [ ] The four required operations work through the API.
+- [ ] Integers, decimals, negatives, and zero behave correctly.
+- [ ] Invalid input and division by zero produce clear errors.
+- [ ] API validates independently of the frontend.
+- [ ] UI displays loading, success, and failure.
+- [ ] UI supports keyboard navigation and mobile screens.
+- [ ] Both test suites and the frontend build pass.
+- [ ] Measured coverage and reproduction instructions are available.
+- [ ] README and prompt record are complete.
+- [ ] Repository contains no credentials, installed dependencies, or unnecessary temporary files.
+- [ ] Repository is published and accessible to evaluators.
+- [ ] Link was shared within the assignment deadline.
